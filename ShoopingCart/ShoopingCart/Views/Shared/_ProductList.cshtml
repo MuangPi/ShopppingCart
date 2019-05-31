@@ -1,0 +1,33 @@
+﻿@model IEnumerable<ShoopingCart.Models.Entity.ProductModel>
+
+
+    @foreach (var item in Model)
+    {
+<div class="item  col-xs-4 col-lg-4">
+    <div class="thumbnail">
+        <img class="group list-group-image img-responsive" src="@item.Image" alt="" width="400" height="250" />
+        <div class="caption">
+            <h4 class="group inner list-group-item-heading">
+                @item.ProductName
+            </h4>
+            <p class="group inner list-group-item-text">
+                @item.ProductDescription
+            </p>
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <p class="lead">
+                        $@item.Price
+                    </p>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    
+                    @Html.ActionLink("Add To Cart", "AddToCart", "Product", new { id = item.ProductId }, new { @class = "btn btn-success" })
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+}
+

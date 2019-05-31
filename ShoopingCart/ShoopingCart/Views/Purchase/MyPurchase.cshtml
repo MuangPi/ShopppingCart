@@ -1,0 +1,67 @@
+﻿@using ShoopingCart.Models.Entity;
+
+@{
+    /**/
+
+    ViewBag.Title = "Product List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //string total_qty = ViewData["total_quantity"].ToString();
+}
+
+<h2>My Purchases</h2>
+@{
+    if (ViewData["purchasedProducts"] == null)
+    {
+        <h2>No Purchased Item</h2>
+    }
+    else
+    {
+        <table class="table">
+
+            @{
+
+                var list = (List<PurchaseProductViewModel>)ViewData["purchasedProducts"];
+
+                
+                foreach (var view in list)
+                {
+            <tr>
+                <td><img src="@view.Image" width="200" height="200" /> </td>
+                <td>@view.ProductDescription</td>
+                <td>&nbsp;</td>
+                <td><label>Purchase On</label></td>
+                <td><label id="demo">@view.PurchaseDate </label></td>
+                <td>&nbsp;</td>
+                <td><label>Quantity</label></td>
+                <td>
+                    <label>@view.Qty</label>
+                </td>
+                <td><label>Activation Code:</label></td>
+                <td>
+                    @Html.DropDownListFor(x => view.ActivationCode, new SelectList(view.ActivationCode), htmlAttributes: new { @class = "form-control", id = "Country" })
+
+                </td>
+
+
+            </tr>
+                    <tr></tr>
+                }
+
+            }
+
+        </table>
+    }
+}
+
+<script>
+
+    $(document).on('click', '#btnViewCart', function () {
+        cart_qty = $("#cartqty").val();
+
+        if (cart_qty > 0) {
+                window.location.href = '@Url.Action("ViewCart", "Cart")';
+        } else {
+            alert("Your Cart is empty!")
+        }
+    });
+</script>

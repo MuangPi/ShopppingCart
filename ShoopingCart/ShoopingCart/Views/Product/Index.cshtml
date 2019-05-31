@@ -1,0 +1,175 @@
+﻿@*@model IEnumerable<ShoopingCart.Models.Entity.ProductModel>*@
+@using ShoopingCart.Models.Entity;
+
+@{
+    ViewBag.Title = "Product List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string total_qty = "0";
+    if (ViewData["total_quantity"] != null)
+    {
+        total_qty = ViewData["total_quantity"].ToString();
+    }
+    string UserName = "";
+    if (ViewData["customer"] != null)
+    {
+        Customer customer = (Customer)ViewData["customer"];
+        UserName = customer.UserName;
+    }
+}
+
+<h2>Libraries Gallery</h2>
+
+<div class="row">
+    <div style="float:left;">
+        <input id="cartqty" name="cartqty" type="hidden" value=@total_qty>
+        <button id="btnViewCart" Style="width: 100px;" class="btn btn-primary center-block" style="float:right;">My Cart: @total_qty</button>
+
+    </div>
+    <div style="float:right;">Hello @UserName, @Html.ActionLink("My Purchase", "Purchase") @Html.ActionLink("Logout", "Logout")</div>
+</div>
+<div class="row">
+    <br />
+</div>
+<div class="col-md-8" style="float:right;">
+   
+    <div class="col-md-6" style="float:right;">
+        <input id="txtSearch" class="form-control" type="text" placeholder="Search Products" aria-label="Search" />
+    </div>
+    <div class="col-md-1" style="float:right;">
+        <button id="btnSearch" style="width:62px;" class="btn btn-success btn-outline-success my-2 my-sm-0"><i class="glyphicon glyphicon-search"></i></button>
+    </div>
+</div>
+<div class="row">
+    <br />
+</div>
+<div class="row">
+    <br />
+</div>
+<div id="" class="row">
+    
+</div>
+    <div class="well well-sm">
+        <strong>Display</strong>
+        <div class="btn-group">
+            <a href="#" id="list" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-th-list">
+                </span>List
+            </a> <a href="#" id="grid" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-th"></span>Grid
+            </a>
+        </div>
+    </div>
+
+    <div id="products" class="row list-group" style="font-size:17px;">
+       
+        @{
+            var productlist = (List<ProductModel>)ViewData["sendData"];
+
+            if (productlist != null)
+            {
+                foreach (var p in productlist)
+                {
+                    <div class="item  col-xs-4 col-lg-4">
+                        <div class="thumbnail">
+                            <img class="group list-group-image img-responsive" src="@p.Image" alt="" width="400" height="250" />
+                            <div class="caption">
+                                <h4 class="group inner list-group-item-heading">
+                                    @p.ProductName
+                                </h4>
+                                <p class="group inner list-group-item-text">
+                                    @p.ProductDescription
+                                </p>
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-6" >
+                                        <p class="lead" >
+                                            $@p.Price
+                                        </p>
+                                    </div>
+                                    <div class="col-xs-12 col-md-6">
+                                      
+                                        @Html.ActionLink("Add To Cart", "AddToCart", "Product", new { id = p.ProductId }, new { @class = "btn btn-success" })
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+        }
+
+    </div>
+
+    <div id="producttable" class="row list-group" style="font-size:17px;">
+       
+    </div>
+<script>
+
+    $(document).on('click', '#btnViewCart', function () {
+        cart_qty = $("#cartqty").val();
+
+        if (cart_qty > 0) {
+            window.location.href = '@Url.Action("ViewCart", "Cart")';
+
+        } else {
+            alert("Your Cart is empty!")
+        }
+    });
+
+
+    $(document).on('click', '#btnSearch', function () {
+        var searchkeyword = $("#txtSearch").val();
+
+        $.ajax
+            ({
+                url: '/Product/Index',
+                type: 'POST',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    productkeyword: searchkeyword
+                }),
+                success: function (data) {
+                    $("#products").remove();
+                    $("#producttable").html(data);
+                },
+                error: function () {
+
+                               },
+            });
+
+    });
+
+
+    $('#txtSearch').on("keypress", function (e) {
+        if (e.keyCode == 13) {
+            var searchkeyword = $("#txtSearch").val();
+            $.ajax
+                ({
+                    url: '/Product/Index',
+                    type: 'POST',
+                    datatype: 'application/json',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        productkeyword: searchkeyword
+                    }),
+                    success: function (data) {
+                        $("#products").remove();
+                        $("#producttable").html(data);
+                    },
+                    error: function () {
+
+                    },
+                });
+        }
+    });
+
+
+
+    $(document).ready(function () {
+        $('#list').click(function (event) { event.preventDefault(); $('#products .item').addClass('list-group-item'); });
+        $('#grid').click(function (event) { event.preventDefault(); $('#products .item').removeClass('list-group-item'); $('#products .item').addClass('grid-group-item'); });
+    });
+</script>

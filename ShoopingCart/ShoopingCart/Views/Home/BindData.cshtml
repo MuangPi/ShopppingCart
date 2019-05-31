@@ -1,0 +1,75 @@
+﻿@using ShoopingCart.Models;
+@{
+    ViewBag.Title = "ViewData";
+    string total_price = ViewData["total_price"].ToString();
+}
+
+<h2>ViewData</h2>
+@Html.ActionLink("CheckOut", "CheckoutMethod", "CheckoutController",new { @class = "label label-info", @role = "label", @style = "width:130px; height: auto; font-weight:bold;font-size:large; text-align:center; " })
+<html>
+<body>
+    <label>Total:</label><label>@total_price</label>
+    <table>
+        @{
+
+            var list = (List<ProductModel>)ViewData["sendData"];
+            foreach (var view in list)
+            {
+                <tr>
+                    <td><img src="@view.Image" width="200" height="200" /> </td>
+                    <td>@view.ProductDescription</td>
+                    <td>&nbsp;</td>
+                    <td><label>Price</label></td>
+                    <td><label id="demo">@view.Price </label></td>
+                    <td>&nbsp;</td>
+                    <td><label>Quantity</label></td>
+                    <td>
+                        <label>@view.Qty</label>
+                        <div class="row" style="float: right; display: inline; margin-right: 1%;">
+                            @Html.ActionLink("+", "IncreaseQuantity", "Home", new { id = view.ProductId }, new { @class = "label label-info", @role = "label", @style = "width:130px; height: auto; font-weight:bold;font-size:large; text-align:center; " })
+                            @Html.ActionLink("-", "DecreaseQuantity", "Home", new { id = view.ProductId }, new { @class = "label label-info", @role = "label", @style = "width:130px; height: auto; font-weight:bold;font-size:large; text-align:center; " })
+
+                        </div>
+                    </td>
+
+
+                </tr>
+                <tr></tr>
+            }
+            @*var image = ViewData["im"];
+                    Server.MapPath("~/App_Data/ " + @view.Image + ".jpg")
+                <img src="image" width="200" height="200">*@
+        }
+
+    </table>
+    <script>
+        @*var abc = @list;*@
+        //var str = '<%= ViewData["sendData"] %>;
+        document.getElementById("demo").innerHTML
+        function CallPrice()
+        {
+            var abcde = 5 * 3;
+            document.write(abcde);
+        }
+    </script>
+
+    <script type="text/javascript">
+        function sayHello() {
+            var abcde = 5 * 3;
+            alert(abcde)
+        }
+    </script>
+
+</body>
+</html>
+<html>
+
+
+<body>
+
+</body>
+
+</html>
+
+
+</script>

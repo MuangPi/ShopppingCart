@@ -1,0 +1,54 @@
+﻿@using ShoopingCart.Models.Entity;
+@{
+    ViewBag.Title = "ViewCart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string total_price = ViewData["total_price"].ToString();
+}
+
+<h2>View Cart</h2>
+<div class="form-group">
+    @*   @Html.ActionLink("CheckOut", "MyPurchase", "Purchase", new { @class = "label label-info", @role = "label", @style = "width:130px; height: auto; font-weight:bold;font-size:large; text-align:center; " })*@
+    <button id="btnContinueShopping" Style="width: 150px;" class="btn btn-primary center-block" style="float:left;">Continue Shopping</button>
+    
+    <button id="btnCheckOut" Style="width: 100px;" class="btn btn-primary center-block" style="float:right;">CheckOut</button>
+    <h3><label style="float:right;">Total: @total_price</label></h3>
+</div>
+
+<table class="table">
+    @{
+
+        var list = (List<ProductModel>)ViewData["sendData"];
+        foreach (var view in list)
+        {
+            <tr>
+                <td><img src="@view.Image" width="200" height="200" /> </td>
+                <td>@view.ProductDescription</td>
+                <td>&nbsp;</td>
+                <td><label>Price</label></td>
+                <td><label id="demo">@view.Price </label></td>
+                <td>&nbsp;</td>
+                <td><label>Quantity</label></td>
+                <td>
+                    <label>@view.Qty</label>
+                    <div class="row" style="float: right; display: inline; margin-right: 1%;">
+                        @Html.ActionLink("+", "IncreaseQuantity", "Cart", new { id = view.ProductId }, new { @class = "label label-info", @role = "label", @style = "width:130px; height: auto; font-weight:bold;font-size:large; text-align:center; " })
+                        @Html.ActionLink("-", "DecreaseQuantity", "Cart", new { id = view.ProductId }, new { @class = "label label-info", @role = "label", @style = "width:130px; height: auto; font-weight:bold;font-size:large; text-align:center; " })
+
+                    </div>
+                </td>
+            </tr>
+            <tr></tr>
+        }
+    }
+
+</table>
+
+<script>
+        $(document).on('click', '#btnCheckOut', function () {
+         window.location.href = '@Url.Action("MyPurchase", "Purchase")';
+    });
+
+        $(document).on('click', '#btnContinueShopping', function () {
+         window.location.href = '@Url.Action("Index", "Product")';
+    });
+</script>

@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "ProductForm";
+}
+
+<h2>ProductForm</h2>
+
+@model ShoopingCart.Models.ProductModel
+@{
+    ViewBag.Title = "Product Form";
+}
+
+@using (Html.BeginForm("FileUpload", "Home", FormMethod.Post,
+                            new { enctype = "multipart/form-data" }))
+{
+    <table>
+        <tr>
+            <td>@Html.LabelFor(x => x.ProductName)</td>
+            <td>@Html.TextBoxFor(x => x.ProductName)</td>
+            <td>@Html.ValidationMessageFor(x => x.ProductName)</td>
+        </tr>
+
+        <tr>
+            <td>@Html.LabelFor(x => x.ProductDescription)</td>
+            <td>@Html.TextBoxFor(x => x.ProductDescription)</td>
+            <td>@Html.ValidationMessageFor(x => x.ProductDescription)</td>
+        </tr>
+
+        <tr>
+            <td>@Html.LabelFor(x => x.Price)</td>
+            <td>@Html.TextBoxFor(x => x.Price)</td>
+            <td>@Html.ValidationMessageFor(x => x.Price)</td>
+        </tr>
+
+        <tr>
+            <td>@Html.LabelFor(x => x.Image)</td>
+
+            @*<td>@Html.TextBoxFor(x => x.Image)</td>*@
+            <td><input type="file" name="file" id="file" style="width: 100%;" /></td>
+            <td><input type="submit" value="Upload" class="submit" /></td>
+
+
+            <td>@Html.ValidationMessageFor(x => x.Image)</td>
+
+
+        </tr>
+        <tr>
+            <td colspan="2" align="right"><input type="submit" value="SaveRecord" /></td>
+        </tr>
+    </table>
+
+}
+
