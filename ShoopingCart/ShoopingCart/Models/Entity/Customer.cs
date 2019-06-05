@@ -12,6 +12,7 @@ namespace ShoopingCart.Models.Entity
         public string UserId { get; set; }
         public string Password { get; set; }
         public string Session { get; set; }
+        public string Session2 { get; set; }
 
     }
 }

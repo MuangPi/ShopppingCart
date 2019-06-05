@@ -43,7 +43,7 @@ namespace ShoopingCart.Models.Repository
                     SqlDataReader reader = cmd.ExecuteReader();
 
 
-
+                    // I am Muang PI.I am stupid.
 
                     while (reader.Read())
                     {
